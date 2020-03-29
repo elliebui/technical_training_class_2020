@@ -41,6 +41,7 @@ for number in list_telemarketers:
     if number not in unique_list:
         unique_list.append(number)
 
+print("These numbers could be telemarketers: ")
 for number in sorted(unique_list):
     print(number)
 
