@@ -3,6 +3,8 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files
 """
 import csv
+from collections import defaultdict
+
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
@@ -11,36 +13,29 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
-# Dictionary to store all numbers and its time spend on the phone
-number_with_time = {}
+# Dictionary to store all numbers and its time spent on the phone
+number_to_time = defaultdict(int)
 
 for record in calls:
-    incoming_number = record[0]
+    calling_number = record[0]
     answering_number = record[1]
     time = int(record[3])
 
-    if incoming_number in number_with_time.keys():
-        number_with_time[incoming_number] += time
-    else:
-        number_with_time.update({incoming_number: time})
+    number_to_time[calling_number] += time
+    number_to_time[answering_number] += time
 
-    if answering_number in number_with_time.keys():
-        number_with_time[answering_number] += time
-    else:
-        number_with_time.update({answering_number: time})
+# Find max value of time spent on the phone
+max_time_value = max(number_to_time.values())
 
+# Find phone number with max time value
+number_with_max_time_value = max(number_to_time, key=number_to_time.get)
 
-# Find phone number with max time
-max_value = {"number": 0, "time": 0}
+print(f"{number_with_max_time_value} spent the longest time, {max_time_value} seconds, on the phone during September 2016")
 
-for number, time in number_with_time.items():
-    if time > max_value["time"]:
-        max_value["number"] = number
-        max_value["time"] = time
-
-print(max_value["number"], "spent the longest time, ", max_value["time"], "seconds, on the phone during September 2016.")
-
-# O(N^2) complexity
+# for record in calls: O(N) complexity
+# max(number_to_time.values()): O(N) complexity
+# max(number_to_time, key=number_to_time.get): O(N) complexity
+# Total: O(N) complexity
 
 
 """
@@ -52,3 +47,8 @@ Print a message:
 September 2016.".
 """
 
+
+"""
+Answer:
+(080)33251027 spent the longest time, 90456 seconds, on the phone during September 2016
+"""
