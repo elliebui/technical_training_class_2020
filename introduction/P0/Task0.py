@@ -4,7 +4,7 @@ It's ok if you don't understand how to read files.
 """
 import csv
 
-with open('textes.csv', 'r') as f:
+with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
 
@@ -14,16 +14,16 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # Index each column
-incoming_number = 0
-answering_number = 1
-time = 2
-during = 3
+calling_number_index = 0
+answering_number_index = 1
+time_index = 2
+duration_index = 3
 
 first_text = texts[0]
-print("First record of texts, ", first_text[incoming_number], "texts ", first_text[answering_number], "at time ", first_text[time])
+print(f"First record of texts, {first_text[calling_number_index]}, texts {first_text[answering_number_index]} at time {first_text[time_index]}")
 
 last_call = calls[-1]
-print("Last record of calls, ", last_call[incoming_number], "calls ", last_call[answering_number], "at time ", last_call[time], ", lasting ", last_call[during], " seconds")
+print(f"Last record of calls, {last_call[calling_number_index]}, at time {last_call[time_index]}, lasting {last_call[duration_index]} seconds")
 
 # O(1) complexity
 
@@ -33,4 +33,10 @@ What is the first record of texts and what is the last record of calls?
 Print messages:
 "First record of texts, <incoming number> texts <answering number> at time <time>"
 "Last record of calls, <incoming number> calls <answering number> at time <time>, lasting <during> seconds"
+"""
+
+"""
+Answer:
+First record of texts, 97424 22395, texts 90365 06212 at time 01-09-2016 06:03:22
+Last record of calls, 98447 62998, at time 30-09-2016 23:57:15, lasting 2151 seconds
 """
