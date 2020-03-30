@@ -14,16 +14,16 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # Index each column
-calling_number_index = 0
-answering_number_index = 1
+from_number_index = 0
+to_number_index = 1
 time_index = 2
 duration_index = 3
 
 first_text = texts[0]
-print(f"First record of texts, {first_text[calling_number_index]}, texts {first_text[answering_number_index]} at time {first_text[time_index]}")
+print(f"First record of texts, {first_text[from_number_index]}, texts {first_text[to_number_index]} at time {first_text[time_index]}")
 
 last_call = calls[-1]
-print(f"Last record of calls, {last_call[calling_number_index]}, at time {last_call[time_index]}, lasting {last_call[duration_index]} seconds")
+print(f"Last record of calls, {last_call[from_number_index]}, at time {last_call[time_index]}, lasting {last_call[duration_index]} seconds")
 
 # first_text = texts[0]: O(1) complexity
 # last_call = calls[-1]: O(1) complexity
