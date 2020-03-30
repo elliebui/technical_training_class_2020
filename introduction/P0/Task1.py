@@ -14,17 +14,17 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # Set to store all unique phone numbers
-unique_phone_number_set = set({})
+unique_phone_numbers = set({})
 
 for record in texts:
-    unique_phone_number_set.add(record[0])
-    unique_phone_number_set.add(record[1])
+    unique_phone_numbers.add(record[0])
+    unique_phone_numbers.add(record[1])
 
 for record in calls:
-    unique_phone_number_set.add(record[0])
-    unique_phone_number_set.add(record[1])
+    unique_phone_numbers.add(record[0])
+    unique_phone_numbers.add(record[1])
 
-print(f"There are {len(unique_phone_number_set)} different telephone numbers in the records")
+print(f"There are {len(unique_phone_numbers)} different telephone numbers in the records")
 
 # for record in texts: O(N) complexity
 # for record in calls: O(N) complexity
