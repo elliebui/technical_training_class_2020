@@ -13,31 +13,31 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
-# List to store all numbers
-all_numbers = []
+# Set to store all unique phone numbers
+unique_phone_number_set = set({})
 
 for record in texts:
-    all_numbers.append(record[0])
-    all_numbers.append(record[1])
+    unique_phone_number_set.add(record[0])
+    unique_phone_number_set.add(record[1])
 
 for record in calls:
-    all_numbers.append(record[0])
-    all_numbers.append(record[1])
+    unique_phone_number_set.add(record[0])
+    unique_phone_number_set.add(record[1])
 
-# List to store all unique numbers
-unique_list = []
+print(f"There are {len(unique_phone_number_set)} different telephone numbers in the records")
 
-for number in all_numbers:
-    if number not in unique_list:
-        unique_list.append(number)
-
-print("There are ", len(unique_list), "different telephone numbers in the records.")
-
-# O(N) complexity
+# for record in texts: O(N) complexity
+# for record in calls: O(N) complexity
+# Total: O(N)
 
 """
 TASK 1:
 How many different telephone numbers are there in the records? 
 Print a message:
 "There are <count> different telephone numbers in the records."
+"""
+
+"""
+Answer:
+There are 570 different telephone numbers in the records
 """

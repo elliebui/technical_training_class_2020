@@ -25,7 +25,9 @@ print(f"First record of texts, {first_text[calling_number_index]}, texts {first_
 last_call = calls[-1]
 print(f"Last record of calls, {last_call[calling_number_index]}, at time {last_call[time_index]}, lasting {last_call[duration_index]} seconds")
 
-# O(1) complexity
+# first_text = texts[0]: O(1) complexity
+# last_call = calls[-1]: O(1) complexity
+# Total: O(1) complexity
 
 """
 TASK 0:
