@@ -34,7 +34,7 @@ for record in calls:
 max_value = {"number": 0, "time": 0}
 
 for number, time in number_with_time.items():
-    if max_value is None or time > max_value["time"]:
+    if time > max_value["time"]:
         max_value["number"] = number
         max_value["time"] = time
 
