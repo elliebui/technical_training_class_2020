@@ -12,78 +12,82 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
+
 # PART A
 
-# List to store all numbers called by people in Bangalore
-list_call_from_Bangalore = []
 
-for number in calls:
-    incoming_number = number[0]
-    answering_number = number[1]
-    if incoming_number[0:5] == "(080)":
-        list_call_from_Bangalore.append(answering_number)
-
-# Lists to store all fixed line code and mobile code called by people in Bangalore
-list_fixed_line_code = []
-list_mobile_code = []
-
-for number in list_call_from_Bangalore:
-    if number[0:2] == "(0":
+def extract_area_code(number, number_type):
+    if number_type == "fixed_line":
         part = number.split("(")
-        list_fixed_line_code.append(part[1].split(")")[0])
-    elif number[5] == " " and number[0] in ["7", "8", "9"]:
-        list_mobile_code.append(number[0:4])
+        area_code = part[1].split(")")[0]
+    elif number_type == "mobile":
+        area_code = number[0:5]
+    elif number_type == "telemarketer":
+        area_code = "140"
+    else:
+        raise Exception(f"Number type {number_type} is not implemented.")
+
+    return area_code
 
 
-# Lists to store unique fixed line code and mobile code
-unique_fixed_line_code_list = []
-
-for number in list_fixed_line_code:
-    if number not in unique_fixed_line_code_list:
-        unique_fixed_line_code_list.append(number)
-sorted_unique_fixed_line_code_list = sorted(unique_fixed_line_code_list)
+def get_sorted_unique_area_code_list(area_code_list):
+    unique_list = set()
+    for code in area_code_list:
+        unique_list.add(code)
+    return sorted(unique_list)
 
 
-unique_mobile_code_list = []
+# List to store all numbers called by people in Bangalore
+list_number_call_from_bangalore = [number[1] for number in calls if number[0][0:5] == "(080)"]
 
-for number in list_mobile_code:
-    if number not in unique_mobile_code_list:
-        unique_mobile_code_list.append(number)
-sorted_unique_mobile_code_list = sorted(unique_mobile_code_list)
+# List to store all fixed line code called by people in Bangalore
+list_fixed_line_code = [extract_area_code(number, number_type="fixed_line") for number in
+                        list_number_call_from_bangalore if number[0:2] == "(0"]
 
+list_sorted_unique_fixed_line_code = get_sorted_unique_area_code_list(list_fixed_line_code)
+
+# List to store all mobile code called by people in Bangalore
+list_mobile_code = [extract_area_code(number, number_type="mobile") for number in list_number_call_from_bangalore if
+                    number[5] == " " and number[0] in ["7", "8", "9"]]
+
+list_sorted_unique_mobile_code = get_sorted_unique_area_code_list(list_mobile_code)
+
+# List to store all telemarketer code called by people in Bangalore
+list_telemarketer_code = [extract_area_code(number, number_type="telemarketer") for number in
+                          list_number_call_from_bangalore if number[0:3] == "140"]
+
+list_sorted_unique_telemarketer_code = get_sorted_unique_area_code_list(list_telemarketer_code)
 
 print("Part A: The numbers called by people in Bangalore have codes:")
-for number in sorted_unique_fixed_line_code_list:
+for number in list_sorted_unique_fixed_line_code:
     print(number)
-for number in sorted_unique_mobile_code_list:
+for number in list_sorted_unique_mobile_code:
+    print(number)
+for number in list_sorted_unique_telemarketer_code:
     print(number)
 
-# O(N^2) complexity
+# list_number_call_from_bangalore: O(N) complexity
+# list_fixed_line_code & similar & similar ones: O(3N) complexity
+# list_sorted_unique_fixed_line_code & similar ones: O(N) complexity
+# sorted: O(nlogn) complexity
+# Total: O(N) complexity
 
 # PART B
 
-# List to store all numbers called by people in Bangalore
-list_call_from_Bangalore = []
+list_call_from_bangalore = [record for record in calls if record[0][0:5] == "(080)"]
 
-for record in calls:
-    incoming_number = record[0]
-    if incoming_number[0:5] == "(080)":
-        list_call_from_Bangalore.append(record)
+list_call_to_bangalore_from_bangalore = [record for record in list_call_from_bangalore if record[1][0:5] == "(080)"]
 
-list_call_to_Bangalore_from_Bangalore = []
-
-for record in list_call_from_Bangalore:
-    answering_number = record[1]
-    if answering_number[0:5] == "(080)":
-        list_call_to_Bangalore_from_Bangalore.append(record)
-
-
-percentage = len(list_call_to_Bangalore_from_Bangalore)/len(list_call_from_Bangalore)*100
+percentage = len(list_call_to_bangalore_from_bangalore) / len(list_call_from_bangalore) * 100
 
 print("Part B")
-print(round(percentage, 2), "percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
+print(round(percentage, 2),
+      "percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
 
-# O(N^2) complexity
+# list_call_from_bangalore: O(N) complexity
+# list_call_to_bangalore_from_bangalore: O(N) complexity
+# percentage: O(1) complexity
+# Total: O(N) complexity
 
 
 """
@@ -116,4 +120,93 @@ Print the answer as a part of a message::
 "<percentage> percent of calls from fixed lines in Bangalore are calls
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
+"""
+
+"""
+Part A: The numbers called by people in Bangalore have codes:
+022
+040
+04344
+044
+04546
+0471
+080
+0821
+74062
+74064
+74066
+77956
+78130
+78135
+78293
+78295
+81510
+81513
+81515
+81517
+81524
+83013
+84312
+84313
+84319
+87146
+90087
+90088
+90192
+90194
+90196
+90199
+90351
+90355
+90365
+90368
+92414
+92415
+92421
+92423
+92429
+93412
+93414
+93426
+93427
+93428
+93432
+93434
+94001
+94002
+94005
+94480
+94482
+94488
+94491
+94495
+95263
+95266
+95267
+96569
+97380
+97386
+97402
+97406
+97410
+97415
+97416
+97418
+97422
+97424
+98440
+98442
+98443
+98445
+98446
+98447
+98448
+98458
+98459
+99001
+99003
+99004
+99612
+Part B
+24.81 percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.
 """
