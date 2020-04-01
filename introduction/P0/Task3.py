@@ -67,10 +67,10 @@ for number in list_sorted_unique_telemarketer_code:
     print(number)
 
 # list_number_call_from_bangalore: O(N) complexity
-# list_fixed_line_code & similar & similar ones: O(3N) complexity
+# list_fixed_line_code & similar & similar ones: O(N^2) complexity
 # list_sorted_unique_fixed_line_code & similar ones: O(N) complexity
 # sorted: O(nlogn) complexity
-# Total: O(N) complexity
+# Total: O(N^2) complexity
 
 # PART B
 
