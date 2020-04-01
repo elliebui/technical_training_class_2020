@@ -24,17 +24,13 @@ for record in calls:
     number_to_time[calling_number] += time
     number_to_time[answering_number] += time
 
-# Find max value of time spent on the phone
-max_time_value = max(number_to_time.values())
-
-# Find phone number with max time value
-number_with_max_time_value = max(number_to_time, key=number_to_time.get)
+# Find phone number with max time value and max time spent on the phone value
+max_time_value, number_with_max_time_value = max((value, key) for key, value in number_to_time.items())
 
 print(f"{number_with_max_time_value} spent the longest time, {max_time_value} seconds, on the phone during September 2016")
 
 # for record in calls: O(N) complexity
-# max(number_to_time.values()): O(N) complexity
-# max(number_to_time, key=number_to_time.get): O(N) complexity
+# max((value, key) for key, value in number_to_time.items()): O(N) complexity
 # Total: O(N) complexity
 
 

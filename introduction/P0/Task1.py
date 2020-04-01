@@ -14,7 +14,7 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # Set to store all unique phone numbers
-unique_phone_numbers = set({})
+unique_phone_numbers = set()
 
 for record in texts:
     unique_phone_numbers.add(record[0])
