@@ -1,4 +1,4 @@
-# Solution
+
 
 def word_flipper(our_string):
 
@@ -12,19 +12,14 @@ def word_flipper(our_string):
 
     return pass
     """
-    flipped_string = ""
+    sentence = our_string.split()
 
-    sentence = our_string.split(" ")
+    # Reverse each word in sentence
+    flipped_words = [word[::-1] for word in sentence]
 
-    for word in sentence:
-        for i in range(1, len(word)):
-            flipped_string += word[-i]
+    flipped_string = " ".join(flipped_words)
 
-        flipped_string += word[0]
-        flipped_string += " "
-
-    # Remove the last space " "
-    return flipped_string[:-1]
+    return flipped_string
 
 
 print("Pass" if ('retaw' == word_flipper('water')) else "Fail")
