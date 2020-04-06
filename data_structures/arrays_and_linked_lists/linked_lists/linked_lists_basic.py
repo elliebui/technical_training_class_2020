@@ -1,4 +1,4 @@
-from data_structures.arrays_and_linked_lists.linked_lists.node import Node
+from data_structures.arrays_and_linked_lists.linked_lists.model.node import Node
 
 
 class LinkedList:
