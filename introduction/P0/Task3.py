@@ -15,7 +15,6 @@ with open('calls.csv', 'r') as f:
 
 # PART A
 
-
 def extract_area_code(number):
     if number[0:2] == "(0":
         part = number.split("(")
@@ -37,8 +36,12 @@ def get_sorted_unique_item(items):
     return sorted(unique_items)
 
 
-# List to store all numbers called by people in Bangalore
-numbers_called_from_bangalore = [record[1] for record in calls if extract_area_code(record[0]) == "080"]
+# Set to store all numbers called by people in Bangalore
+numbers_called_from_bangalore = set()
+
+for record in calls:
+    if extract_area_code(record[0]) == "080":
+        numbers_called_from_bangalore.add(record[1])
 
 # List to store all fixed line code called by people in Bangalore
 fixed_line_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
@@ -67,10 +70,10 @@ for number in sorted_unique_telemarketer_area_codes:
     print(number)
 
 # numbers_called_from_bangalore: O(N) complexity
-# fixed_line_area_codes & similar ones: O(N^2) complexity
+# fixed_line_area_codes & similar ones: O(1) complexity
 # sorted_unique_fixed_line_area_codes & similar ones: O(N) complexity
 # sorted: O(nlogn) complexity
-# Total: O(N^2) complexity
+# Total: O(N) complexity
 
 # PART B
 

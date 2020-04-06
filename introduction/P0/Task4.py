@@ -41,9 +41,9 @@ for number in sorted(list_telemarketers):
     print(number)
 
 
-# for number in texts/calls: O(N) complexity
-# list_telemarketers: O(N^2) complexity
-# Total: O(N^2) complexity
+# for number in texts/calls: O(1) complexity
+# list_telemarketers: O(1) complexity
+# Total: O(1) complexity
 
 """
 TASK 4:
