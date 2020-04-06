@@ -13,36 +13,37 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # Lists to store numbers that are sending and receiving text
-sending_text_number = set()
-receiving_text_number = set()
+sending_text_numbers = set()
+receiving_text_numbers = set()
 
 for number in texts:
-    sending_text_number.add(number[0])
-    receiving_text_number.add(number[1])
+    sending_text_numbers.add(number[0])
+    receiving_text_numbers.add(number[1])
 
 # Lists to store numbers that are giving or answering calls
-calling_call_number = set()
-answering_call_number = set()
+calling_call_numbers = set()
+answering_call_numbers = set()
 
 for number in calls:
-    calling_call_number.add(number[0])
-    answering_call_number.add(number[1])
+    calling_call_numbers.add(number[0])
+    answering_call_numbers.add(number[1])
 
 # If a number only receives call and not sending text, receiving text, or answering call
 # add it to list of telemarketers
-list_telemarketers = set()
 
-list_not_telemarketers = answering_call_number | sending_text_number | receiving_text_number
+list_not_telemarketers = answering_call_numbers | sending_text_numbers | receiving_text_numbers
 
-for number in calling_call_number:
-    if number not in list_not_telemarketers:
-        list_telemarketers.add(number)
+list_telemarketers = [number for number in calling_call_numbers if number not in list_not_telemarketers]
+
 
 print("These numbers could be telemarketers: ")
 for number in sorted(list_telemarketers):
     print(number)
 
-# O(N^2) complexity
+
+# for number in texts/calls: O(N) complexity
+# list_telemarketers: O(N^2) complexity
+# Total: O(N^2) complexity
 
 """
 TASK 4:

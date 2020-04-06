@@ -16,69 +16,70 @@ with open('calls.csv', 'r') as f:
 # PART A
 
 
-def extract_area_code(number, number_type):
-    if number_type == "fixed_line":
+def extract_area_code(number):
+    if number[0:2] == "(0":
         part = number.split("(")
         area_code = part[1].split(")")[0]
-    elif number_type == "mobile":
+    elif number[5] == " " and number[0] in ["7", "8", "9"]:
         area_code = number[0:5]
-    elif number_type == "telemarketer":
+    elif number[0:3] == "140":
         area_code = "140"
     else:
-        raise Exception(f"Number type {number_type} is not implemented.")
+        raise Exception(f"Phone number format is not supported.")
 
     return area_code
 
 
-def get_sorted_unique_area_code_list(area_code_list):
-    unique_list = set()
-    for code in area_code_list:
-        unique_list.add(code)
-    return sorted(unique_list)
+def get_sorted_unique_item(items):
+    unique_items = set()
+    for item in items:
+        unique_items.add(item)
+    return sorted(unique_items)
 
 
 # List to store all numbers called by people in Bangalore
-list_number_call_from_bangalore = [number[1] for number in calls if number[0][0:5] == "(080)"]
+numbers_called_from_bangalore = [record[1] for record in calls if extract_area_code(record[0]) == "080"]
 
 # List to store all fixed line code called by people in Bangalore
-list_fixed_line_code = [extract_area_code(number, number_type="fixed_line") for number in
-                        list_number_call_from_bangalore if number[0:2] == "(0"]
+fixed_line_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
+                         if number[0:2] == "(0"]
 
-list_sorted_unique_fixed_line_code = get_sorted_unique_area_code_list(list_fixed_line_code)
+sorted_unique_fixed_line_area_codes = get_sorted_unique_item(fixed_line_area_codes)
 
 # List to store all mobile code called by people in Bangalore
-list_mobile_code = [extract_area_code(number, number_type="mobile") for number in list_number_call_from_bangalore if
-                    number[5] == " " and number[0] in ["7", "8", "9"]]
+mobile_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
+                     if number[5] == " " and number[0] in ["7", "8", "9"]]
 
-list_sorted_unique_mobile_code = get_sorted_unique_area_code_list(list_mobile_code)
+sorted_unique_mobile_area_codes = get_sorted_unique_item(mobile_area_codes)
 
 # List to store all telemarketer code called by people in Bangalore
-list_telemarketer_code = [extract_area_code(number, number_type="telemarketer") for number in
-                          list_number_call_from_bangalore if number[0:3] == "140"]
+telemarketer_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
+                           if number[0:3] == "140"]
 
-list_sorted_unique_telemarketer_code = get_sorted_unique_area_code_list(list_telemarketer_code)
+sorted_unique_telemarketer_area_codes = get_sorted_unique_item(telemarketer_area_codes)
 
 print("Part A: The numbers called by people in Bangalore have codes:")
-for number in list_sorted_unique_fixed_line_code:
+for number in sorted_unique_fixed_line_area_codes:
     print(number)
-for number in list_sorted_unique_mobile_code:
+for number in sorted_unique_mobile_area_codes:
     print(number)
-for number in list_sorted_unique_telemarketer_code:
+for number in sorted_unique_telemarketer_area_codes:
     print(number)
 
-# list_number_call_from_bangalore: O(N) complexity
-# list_fixed_line_code & similar & similar ones: O(N^2) complexity
-# list_sorted_unique_fixed_line_code & similar ones: O(N) complexity
+# numbers_called_from_bangalore: O(N) complexity
+# fixed_line_area_codes & similar ones: O(N^2) complexity
+# sorted_unique_fixed_line_area_codes & similar ones: O(N) complexity
 # sorted: O(nlogn) complexity
 # Total: O(N^2) complexity
 
 # PART B
 
-list_call_from_bangalore = [record for record in calls if record[0][0:5] == "(080)"]
+calls_from_bangalore = [record for record in calls if extract_area_code(record[0]) == "080"]
 
-list_call_to_bangalore_from_bangalore = [record for record in list_call_from_bangalore if record[1][0:5] == "(080)"]
+calls_to_bangalore_from_bangalore = [record for record in calls_from_bangalore
+                                         if extract_area_code(record[1]) == "080"]
 
-percentage = len(list_call_to_bangalore_from_bangalore) / len(list_call_from_bangalore) * 100
+percentage = len(calls_to_bangalore_from_bangalore) / len(calls_from_bangalore) * 100
 
 print("Part B")
 print(round(percentage, 2),
