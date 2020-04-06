@@ -29,9 +29,9 @@ def extract_area_code(number):
     return area_code
 
 
-def get_sorted_unique_item(items):
-    unique_items = set()
-    for item in items:
+def get_sorted_unique_items(items):
+    unique_items = set(items)
+    for item in unique_items:
         unique_items.add(item)
     return sorted(unique_items)
 
@@ -47,19 +47,19 @@ for record in calls:
 fixed_line_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
                          if number[0:2] == "(0"]
 
-sorted_unique_fixed_line_area_codes = get_sorted_unique_item(fixed_line_area_codes)
+sorted_unique_fixed_line_area_codes = get_sorted_unique_items(fixed_line_area_codes)
 
 # List to store all mobile code called by people in Bangalore
 mobile_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
                      if number[5] == " " and number[0] in ["7", "8", "9"]]
 
-sorted_unique_mobile_area_codes = get_sorted_unique_item(mobile_area_codes)
+sorted_unique_mobile_area_codes = get_sorted_unique_items(mobile_area_codes)
 
 # List to store all telemarketer code called by people in Bangalore
 telemarketer_area_codes = [extract_area_code(number) for number in numbers_called_from_bangalore
                            if number[0:3] == "140"]
 
-sorted_unique_telemarketer_area_codes = get_sorted_unique_item(telemarketer_area_codes)
+sorted_unique_telemarketer_area_codes = get_sorted_unique_items(telemarketer_area_codes)
 
 print("Part A: The numbers called by people in Bangalore have codes:")
 for number in sorted_unique_fixed_line_area_codes:
@@ -73,7 +73,7 @@ for number in sorted_unique_telemarketer_area_codes:
 # fixed_line_area_codes & similar ones: O(1) complexity
 # sorted_unique_fixed_line_area_codes & similar ones: O(N) complexity
 # sorted: O(nlogn) complexity
-# Total: O(N) complexity
+# Total: O(nlogn) complexity
 
 # PART B
 

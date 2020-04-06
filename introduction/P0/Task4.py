@@ -31,19 +31,20 @@ for number in calls:
 # If a number only receives call and not sending text, receiving text, or answering call
 # add it to list of telemarketers
 
-list_not_telemarketers = answering_call_numbers | sending_text_numbers | receiving_text_numbers
+not_telemarketer_numbers = answering_call_numbers | sending_text_numbers | receiving_text_numbers
 
-list_telemarketers = [number for number in calling_call_numbers if number not in list_not_telemarketers]
+telemarketers_numbers = calling_call_numbers.difference(not_telemarketer_numbers)
 
 
 print("These numbers could be telemarketers: ")
-for number in sorted(list_telemarketers):
+for number in sorted(telemarketers_numbers):
     print(number)
 
 
 # for number in texts/calls: O(1) complexity
 # list_telemarketers: O(1) complexity
-# Total: O(1) complexity
+# sorted: O(nlogn) complexity
+# Total: O(nlogn) complexity
 
 """
 TASK 4:
