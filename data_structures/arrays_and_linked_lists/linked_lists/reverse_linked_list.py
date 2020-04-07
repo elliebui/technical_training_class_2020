@@ -10,21 +10,26 @@ def reverse(linked_list):
     Returns:
        obj: Reveresed Linked List
     """
-    new_linked_list = LinkedList()
-    node = linked_list.head
-    while node.next:
-        new_linked_list.prepend(node)
-        node = node.next
+    if linked_list.head is None:
+        return None
 
-    new_linked_list.prepend(node)
-    # new_linked_list.head = node
-    return new_linked_list
+    previous = None
+    current = linked_list.head
+
+    while current:
+        next = current.next
+        current.next = previous
+
+        previous = current
+        current = next
+
+    linked_list.head = previous
+    return linked_list
 
 
 llist = LinkedList()
 for value in [4,2,5,1,-3,0]:
     llist.append(value)
 
-# print ("Pass" if (llist == reverse(llist)) else "Fail")
 print(llist)
 print(reverse(llist))
