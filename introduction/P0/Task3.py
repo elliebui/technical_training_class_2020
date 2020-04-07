@@ -31,8 +31,6 @@ def extract_area_code(number):
 
 def get_sorted_unique_items(items):
     unique_items = set(items)
-    for item in unique_items:
-        unique_items.add(item)
     return sorted(unique_items)
 
 
