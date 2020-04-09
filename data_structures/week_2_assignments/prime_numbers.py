@@ -31,3 +31,9 @@ while True:
 
 # Return the 10001st prime number
 print(prime_numbers[10000])
+
+
+"""
+Answer:
+104743
+"""
