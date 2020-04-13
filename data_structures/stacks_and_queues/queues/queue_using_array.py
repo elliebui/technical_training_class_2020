@@ -37,7 +37,6 @@ class Queue:
 
         # Shift the head over so that it refers to the next index
         front = self.arr[self.front_index]
-        # self.arr[self.front_index] = self.arr[self.next_index]
         self.front_index = (self.front_index + 1) % len(self.arr)
         # Decrease queue size and return front
         self.queue_size -= 1
