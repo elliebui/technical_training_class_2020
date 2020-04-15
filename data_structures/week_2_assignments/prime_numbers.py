@@ -1,11 +1,14 @@
+import math
 
-prime_numbers = [2]
+prime_numbers = []
 number = 2
 
 while len(prime_numbers) < 10001:
     is_prime = True
     # For each number, divide it by each number in list of prime number less than its square root
     for i in prime_numbers:
+        if i > math.sqrt(number):
+            break
         if number % i == 0:
             # If number is divisible by any number already in list of prime numbers, it is not prime
             # Stop for loop to check for prime
