@@ -32,6 +32,7 @@ class BlockChain:
 
             self.head = new_block
             return
+            # Time complexity: O(1)
 
         # create new block
         new_block = Block(timestamp=datetime.datetime.utcnow(),
@@ -41,9 +42,11 @@ class BlockChain:
         block = self.head
         while block.next:
             block = block.next
+        # Time complexity: O(N)
         block.next = new_block
         new_block.previous_hash = block.hash
 
+# Total time complexity: O(N)
 
 block_chain = BlockChain()
 block_chain.add_block("a1")
@@ -54,18 +57,13 @@ block_chain.add_block("a4")
 block = block_chain.head
 
 # print all blocks
-while block.next:
+while block:
     print(block.timestamp)
     print(block.data)
     print(block.previous_hash)
     print(block.hash)
     print("\n")
     block = block.next
-
-print(block.timestamp)
-print(block.data)
-print(block.previous_hash)
-print(block.hash)
 
 """
 Answer:
