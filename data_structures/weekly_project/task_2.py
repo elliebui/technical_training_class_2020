@@ -17,18 +17,19 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    list_file = os.listdir(path)
+    list_file = os.listdir(path)  # Time complexity: O(1)
     output = []
 
-    for item in list_file:
-        full_path = os.path.join(path, item)
-        if os.path.isfile(os.path.join(path, item)):
-            if full_path.endswith(suffix):
-                output.append(full_path)
+    for item in list_file:  # Time complexity: O(N)
+        full_path = os.path.join(path, item)  # Time complexity: O(1)
+        if os.path.isfile(full_path):  # Time complexity: O(1)
+            if full_path.endswith(suffix):  # Time complexity: O(1)
+                output.append(full_path)  # Time complexity: O(1)
         else:
-            output += find_files(suffix, full_path)
+            output += find_files(suffix, full_path)   # Time complexity: O(N)
 
     return output
+    # Time complexity: O(N^2)
 
 
 print(find_files(".c", "./testdir"))

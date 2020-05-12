@@ -126,3 +126,11 @@ for i in element_2:
 
 print(union(linked_list_3, linked_list_4))
 print(intersection(linked_list_3, linked_list_4))
+
+"""
+Answer:
+32 -> 9 -> 11 -> 1 -> 2 -> 35 -> 65 -> 6 -> 4 -> 3 -> 21 -> 
+4 -> 6 -> 21 -> 
+7 -> 8 -> 9 -> 11 -> 21 -> 1 -> 2 -> 35 -> 65 -> 6 -> 4 -> 3 -> 23 -> 
+None
+"""

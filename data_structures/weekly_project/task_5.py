@@ -23,21 +23,16 @@ class BlockChain:
         self.head = None
 
     def add_block(self, data):
-        # if block chain is empty
-        # create first block
-        if self.head is None:
-            new_block = Block(timestamp=datetime.datetime.utcnow(),
-                              data=data,
-                              previous_hash=None)
-
-            self.head = new_block
-            return
-            # Time complexity: O(1)
-
-        # create new block
         new_block = Block(timestamp=datetime.datetime.utcnow(),
                           data=data,
                           previous_hash=None)
+
+        # if block chain is empty
+        # create first block
+        if self.head is None:
+            self.head = new_block
+            return
+            # Time complexity: O(1)
 
         block = self.head
         while block.next:

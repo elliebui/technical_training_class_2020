@@ -17,37 +17,39 @@ class LRUCache(object):
 
     def get(self, key):
         # Retrieve item from provided key. Return -1 if nonexistent.
-        if key not in self.hash_map:
+        if key not in self.hash_map:  # Time complexity: O(1)
             return -1
 
         # if key exists in map, then remove node from list
         # and set it as head of list (most recently used)
-        node = self.hash_map[key]
-        self.remove(node)
+        node = self.hash_map[key]  # Time complexity: O(1)
+        self.remove(node)  # Time complexity: O(1)
         self.size += 1
-        self.set_head(node)
+        self.set_head(node)  # Time complexity: O(1)
         return node.value
+        # Time complexity: O(1)
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
-        if key not in self.hash_map:
+        if key not in self.hash_map:  # Time complexity: O(1)
             new_node = Node(key, value)
             # if cache reaches capacity, remove key from hash_map
             # and remove end node (least recently used)
             if self.size == self.capacity:
-                self.hash_map.pop(self.end.key)
-                self.remove(self.end)
+                self.hash_map.pop(self.end.key)   # Time complexity: O(1)
+                self.remove(self.end)   # Time complexity: O(1)
 
             # else set the new node as head node (most recently used)
-            self.set_head(new_node)
-            self.hash_map[key] = new_node
+            self.set_head(new_node)  # Time complexity: O(1)
+            self.hash_map[key] = new_node  # Time complexity: O(1)
             self.size += 1
 
         else:
-            node = self.hash_map[key]
+            node = self.hash_map[key]  # Time complexity: O(1)
             node.value = value
-            self.remove(node)
-            self.set_head(node)
+            self.remove(node)  # Time complexity: O(1)
+            self.set_head(node)  # Time complexity: O(1)
+        # Time complexity: O(1)
 
     def remove(self, node):
         if node.prev:
@@ -60,6 +62,7 @@ class LRUCache(object):
         else:
             self.end = node.prev
         self.size -= 1
+        # Time complexity: O(1)
 
     def set_head(self, node):
         node.next = self.head
@@ -70,6 +73,7 @@ class LRUCache(object):
 
         if not self.end:
             self.end = self.head
+        # Time complexity: O(1)
 
 
 our_cache = LRUCache(5)

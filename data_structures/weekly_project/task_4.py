@@ -28,16 +28,17 @@ def is_user_in_group(user, group):
       group(class:Group): group to check user membership against
     """
 
-    if user in group.get_users():
+    if user in group.get_users():  # Time complexity: O(N)
         return True
     else:
-        for sub_group in group.get_groups():
-            if not is_user_in_group(user, sub_group):
-                continue
-            else:
+        for sub_group in group.get_groups():  # Time complexity: O(N)
+            if is_user_in_group(user, sub_group):   # Time complexity: O(N)
                 return True
+            continue
 
     return False
+
+# Total time complexity: O(N^2)
 
 
 group_1 = Group("g1")
