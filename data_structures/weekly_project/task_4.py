@@ -30,11 +30,9 @@ def is_user_in_group(user, group):
 
     if user in group.get_users():  # Time complexity: O(N)
         return True
-    else:
-        for sub_group in group.get_groups():  # Time complexity: O(N)
-            if is_user_in_group(user, sub_group):   # Time complexity: O(N)
-                return True
-            continue
+    for sub_group in group.get_groups():  # Time complexity: O(N)
+        if is_user_in_group(user, sub_group):   # Time complexity: O(N)
+            return True
 
     return False
 
