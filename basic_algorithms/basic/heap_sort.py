@@ -11,6 +11,8 @@ def heap_sort(arr):
         arr[i], arr[0] = arr[0], arr[i]
         heapify(arr, i, 0)
 
+    return arr
+
 
 def heapify(arr, n, i):
     """
@@ -49,22 +51,23 @@ def test_function(test_case):
         print("False")
 
 
-arr = [3, 7, 4, 6, 1, 0, 9, 8, 9, 4, 3, 5]
-solution = [0, 1, 3, 3, 4, 4, 5, 6, 7, 8, 9, 9]
-test_case = [arr, solution]
-test_function(test_case)
+if __name__ == "main":
+    arr = [3, 7, 4, 6, 1, 0, 9, 8, 9, 4, 3, 5]
+    solution = [0, 1, 3, 3, 4, 4, 5, 6, 7, 8, 9, 9]
+    test_case = [arr, solution]
+    test_function(test_case)
 
-arr = [5, 5, 5, 3, 3, 3, 4, 4, 4, 4]
-solution = [3, 3, 3, 4, 4, 4, 4, 5, 5, 5]
-test_case = [arr, solution]
-test_function(test_case)
+    arr = [5, 5, 5, 3, 3, 3, 4, 4, 4, 4]
+    solution = [3, 3, 3, 4, 4, 4, 4, 5, 5, 5]
+    test_case = [arr, solution]
+    test_function(test_case)
 
-arr = [99]
-solution = [99]
-test_case = [arr, solution]
-test_function(test_case)
+    arr = [99]
+    solution = [99]
+    test_case = [arr, solution]
+    test_function(test_case)
 
-arr = [0, 1, 2, 5, 12, 21, 0]
-solution = [0, 0, 1, 2, 5, 12, 21]
-test_case = [arr, solution]
-test_function(test_case)
+    arr = [0, 1, 2, 5, 12, 21, 0]
+    solution = [0, 0, 1, 2, 5, 12, 21]
+    test_case = [arr, solution]
+    test_function(test_case)
