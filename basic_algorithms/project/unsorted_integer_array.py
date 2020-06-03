@@ -11,26 +11,26 @@ def get_min_max(ints):
     """
     n = len(ints)
 
-    if len(ints) == 0:
+    if n == 0:
         return
-    elif len(ints) == 1:
+    elif n == 1:
         return ints[0], ints[1]
+
+    if ints[0] < ints[1]:
+        min_int = ints[0]
+        max_int = ints[1]
     else:
-        if ints[0] < ints[1]:
-            min = ints[0]
-            max = ints[1]
-        else:
-            max = ints[0]
-            min = ints[1]
+        max_int = ints[0]
+        min_int = ints[1]
 
-    for i in range(2, n):
-        if ints[i] < min:
-            min = ints[i]
+    for num in ints[2:]:
+        if num < min_int:
+            min_int = num
 
-        if ints[i] > max:
-            max = ints[i]
+        if num > max_int:
+            max_int = num
 
-    return min, max
+    return min_int, max_int
 # Time complexity is O(N) since we're only traversing through the list once
 
 

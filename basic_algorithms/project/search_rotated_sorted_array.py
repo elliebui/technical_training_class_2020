@@ -8,13 +8,13 @@ def search_rotate_sorted_array(arr, key):
         if arr[mid_index] == key:
             return mid_index
 
-        if arr[low_index] < arr[mid_index]:  # if left subarr is sorted
-            if arr[low_index] <= key <= arr[mid_index]:
+        if arr[low_index] <= arr[mid_index]:  # if left subarr is sorted
+            if arr[low_index] <= key < arr[mid_index]:
                 high_index = mid_index
             else:
                 low_index = mid_index + 1
         else:  # if right subarr is sorted
-            if arr[mid_index] <= key <= arr[high_index]:
+            if arr[mid_index] < key <= arr[high_index]:
                 low_index = mid_index
             else:
                 high_index = mid_index - 1
@@ -43,5 +43,6 @@ test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 8])
 test_function([[6, 7, 8, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+test_function([[6, 7, 8, 1, 2, 3, 4], 4])
 
 # Time complexity: Since this algorithm is binary search, its time complexity is O(logN)
