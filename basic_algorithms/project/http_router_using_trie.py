@@ -65,12 +65,8 @@ class Router:
         # e.g. /about and /about/ both return the /about handler
         path_parts = self.split_path(path)
 
-        # If path ends with trailing slash, remove the empty path part at the end
-        if path_parts[-1] == "":
-            path_parts = path_parts[:-1]
-
-        # If after removing trailing slash and path_parts is empty list, it is root
-        if not path_parts:
+        # If after removing all slashes and path_parts contains an empty string, it is root
+        if path_parts == [""]:
             return self.root_handler
 
         handler = self.route_trie.find(path_parts)
@@ -83,7 +79,10 @@ class Router:
         # you need to split the path into parts for
         # both the add_handler and lookup functions,
         # so it should be placed in a function here
-        return path.split("/")[1:]
+
+        # Remove any slashes at beginning or end
+        stripped_path = path.strip("/")
+        return stripped_path.split("/")
 
 
 # Here are some test cases and expected outputs you can use to test your implementation
@@ -96,6 +95,7 @@ router.add_handler("/home/about", "about handler")  # add a route
 
 # some lookups with the expected output
 print(router.lookup("/"))  # should print 'root handler'
+print(router.lookup("//"))  # should print 'root handler'
 print(router.lookup("/home"))  # should print 'not found handler' or None if you did not implement one
 print(router.lookup("/home/about"))  # should print 'about handler'
 print(router.lookup("/home/about/"))  # should print 'about handler' or None if you did not handle trailing slashes
