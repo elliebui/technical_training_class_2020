@@ -10,19 +10,19 @@ class Suit(Enum):
 
 
 class Value(Enum):
-    one = "A"
-    two = "2"
-    three = "3"
-    four = "4"
-    five = "5"
-    six = "6"
-    seven = "7"
-    eight = "8"
-    nine = "9"
-    ten = "10"
-    eleven = "J"
-    twelve = "Q"
-    thirteen = "K"
+    ACE = "A"
+    TWO = "2"
+    THREE = "3"
+    FOUR = "4"
+    FIVE = "5"
+    SIX = "6"
+    SEVEN = "7"
+    EIGHT = "8"
+    NINE = "9"
+    TEN = "10"
+    JACK = "J"
+    QUEEN = "Q"
+    KING = "K"
 
 
 class Card:
@@ -36,11 +36,7 @@ class Card:
 
 class Deck:
     def __init__(self):
-        self.cards = list()
-        for suit in Suit:
-            for value in Value:
-                self.cards.append(Card(suit, value))
-
+        self.cards = self.create_deck()
         self.size = len(self.cards)
 
     def deal_card(self):
@@ -57,7 +53,18 @@ class Deck:
             random.shuffle(self.cards)
             return self.cards
         else:
-            print("Can't shuffle! Deck doesn't contain 52 cards!")
+            self.cards = self.create_deck()
+            self.size = len(self.cards)
+            self.shuffle_cards()
+
+    @staticmethod
+    def create_deck():
+        cards = list()
+        for suit in Suit:
+            for value in Value:
+                cards.append(Card(suit, value))
+
+        return cards
 
     def print_deck(self):
         for card in self.cards:
@@ -67,18 +74,18 @@ class Deck:
 card_deck = Deck()
 card_deck.print_deck()  # This should print complete deck (52 cards) in order
 print(card_deck.size)  # This should be 52 cards
-
 print("\n")
 
 card_deck.shuffle_cards()  # This should shuffle successfully since the deck has all 52 cards
 card_deck.print_deck()  # This should print complete deck (52 cards) in shuffled order
 print(card_deck.size)  # This should be 52 cards
-
-
 print("\n")
+
 card_deck.deal_card()  # This should remove last card from deck
 card_deck.print_deck()  # This should print incomplete deck (51 cards) in shuffled order
-
 print(card_deck.size)  # This should be 51 cards
+print("\n")
 
-card_deck.shuffle_cards()  # This should not shuffle successfully
+card_deck.shuffle_cards()  # This should make a new deck with 52 cards and then shuffle
+card_deck.print_deck()  # This should print complete deck (52 cards) in shuffled order
+print(card_deck.size)  # This should be 52 cards
