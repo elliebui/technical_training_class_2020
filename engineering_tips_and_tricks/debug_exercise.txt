@@ -1,0 +1,15 @@
+Bug 1:
+Step - Then My problem should be posted successfully
+AttributeError: 'Context' object has no attribute 'current_problem'
+
+Root cause: In function _post_problem used in previous step, the response from 'context.asker_api.post_problem is None' because the function post_problem of asker_api is missing the return statement
+
+What I did to fix: Add return statement
+
+Bug 2:
+Step - 'And Expert should be granted 'READ_ONLY"
+AttributeError: 'Context' object has no attribute 'auth_event_list'
+
+Root cause: attribute 'auth_event_list' is never initialized
+
+What I did to fix: Check to see if context has attribute 'auth_event_list', if not then initialize it
