@@ -1,5 +1,5 @@
 Bug 1:
-Step - Then My problem should be posted successfully
+Step - My problem should be posted successfully
 AttributeError: 'Context' object has no attribute 'current_problem'
 
 Root cause: In function _post_problem used in previous step, the response from 'context.asker_api.post_problem is None' because the function post_problem of asker_api is missing the return statement
@@ -7,9 +7,37 @@ Root cause: In function _post_problem used in previous step, the response from '
 What I did to fix: Add return statement
 
 Bug 2:
-Step - 'And Expert should be granted 'READ_ONLY"
+Step - 'Expert should be granted 'READ_ONLY"
 AttributeError: 'Context' object has no attribute 'auth_event_list'
 
 Root cause: attribute 'auth_event_list' is never initialized
 
 What I did to fix: Check to see if context has attribute 'auth_event_list', if not then initialize it
+
+Bug 3:
+Step - TERMINATED State change event should have key end_reason "grant read_write pemission failed" by AppServerAPI
+
+Root cause: Param "message" has a typo in feature file ("pemission" instead of "permission") so that the if condition is never satisfied inside the try_to_do(check) function
+
+What I did to fix: Update the typo in feature file into "permissoin"
+
+Bug 4:
+Step - Authorization events order should be correct
+
+Root cause: function _is_sublist_in_correct_order is implemented incorrectly. After finding similar element from sublist, that element needs to be removed from sublist instead of the last element in sublist.
+
+What I did to fix: Update temp.pop() to temp.pop(0)
+
+Bug 5:
+Step - Expert should be {action} "{access_level}"
+
+Root cause: In step impelemtation, there's a try_to_do which is filtering the auth_request with correct explainer email, access level & auth_type. However the API call if left outside the try_to_do.
+
+What I did to fix: In order for get the correct auth_request (in case it comes not in the first API call) we need to move the API call to be inside try_to_do
+
+Bug 6:
+Init_data: Response: {'error_code': 40000, 'error_data': {}, 'error_message': 'Invalid taxonomy tag in pools'}
+
+Root cause: In init_data, AdminExplainerAPI().config_policy_tests(...) is called to update config for policy test present in sample config. That function is trying to update test pools with "taxonomy": "tag1" while we don't have any question with that taxonomy tag in sample config yet.
+
+What I did to fix: Replace "tag1" with taxonomy already present in sample config ("policy_test_tag")
