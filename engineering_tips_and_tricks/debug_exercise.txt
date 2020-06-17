@@ -1,6 +1,14 @@
 Bug 1:
 Step - My problem should be posted successfully
-AttributeError: 'Context' object has no attribute 'current_problem'
+
+Process of finding bug:
+- Run test case by command line
+-> Step failed: My problem should be posted successfully
+Error message: AttributeError: 'Context' object has no attribute 'current_problem'
+- Look into this step to see if attribute current_problem is intialized here. No. So I look into previous step: I post a problem with {title_length} characters title and {description_length} characters description. The attribute is initalized here so I put breakpoint at this step in steps file
+- Step in code and I notice that in line 232, file pptchat/tasks/sessions.py:
+response = context.asker_api.post_problem(...) is None
+- Look into post_problem function of asker_api, I see that this function is missing the return statement
 
 Root cause: In function _post_problem used in previous step, the response from 'context.asker_api.post_problem is None' because the function post_problem of asker_api is missing the return statement
 
@@ -8,7 +16,13 @@ What I did to fix: Add return statement
 
 Bug 2:
 Step - 'Expert should be granted 'READ_ONLY"
-AttributeError: 'Context' object has no attribute 'auth_event_list'
+
+Process of finding bug:
+- Run test case by command line
+-> Step failed: Expert should be granted 'READ_ONLY'
+Error message:  AttributeError: 'Context' object has no attribute 'auth_event_list'
+Line where error is thrown: if result not in context.auth_event_list:
+- Looks like the attribute 'auth_event_list' is not initialized
 
 Root cause: attribute 'auth_event_list' is never initialized
 
@@ -17,12 +31,31 @@ What I did to fix: Check to see if context has attribute 'auth_event_list', if n
 Bug 3:
 Step - TERMINATED State change event should have key end_reason "grant read_write pemission failed" by AppServerAPI
 
+Process of finding bug:
+- Run test case by command line
+-> Step failed: TERMINATED State change event should have key end_reason "grant read_write pemission failed" by AppServerAPI
+Error message: assert try_to_do(check) AssertionError
+This means that try_to_do never returns True
+- Put breakpoint at where the function check is called in steps file
+- Run test case in debug mode. I notice why it never goes inside the condition that would return True:
+if filtered_events[0]["data"]["end_reason"] == message:
+
+filtered_events[0]["data"]["end_reason"] = 'grant read_write permission failed'
+message = 'grant read_write pemission failed'
+
 Root cause: Param "message" has a typo in feature file ("pemission" instead of "permission") so that the if condition is never satisfied inside the try_to_do(check) function
 
-What I did to fix: Update the typo in feature file into "permissoin"
+What I did to fix: Update the typo in feature file into "permission"
 
 Bug 4:
 Step - Authorization events order should be correct
+
+Process of finding bug:
+- Run test case by command line
+-> Step failed: Authorization events order should be correct
+Error message: File "pptchat/test_suites/asker/steps/pre_session.py", line 402, in step_impl
+assert _is_sublist_in_correct_order(auth_requests, context.auth_event_list)
+- I notice that the logic implemented in this function is incorrect
 
 Root cause: function _is_sublist_in_correct_order is implemented incorrectly. After finding similar element from sublist, that element needs to be removed from sublist instead of the last element in sublist.
 
@@ -31,7 +64,7 @@ What I did to fix: Update temp.pop() to temp.pop(0)
 Bug 5:
 Step - Expert should be {action} "{access_level}"
 
-Root cause: In step impelemtation, there's a try_to_do which is filtering the auth_request with correct explainer email, access level & auth_type. However the API call if left outside the try_to_do.
+Root cause: In step implementation, there's a try_to_do which is filtering the auth_request with correct explainer email, access level & auth_type. However the API call if left outside the try_to_do.
 
 What I did to fix: In order for get the correct auth_request (in case it comes not in the first API call) we need to move the API call to be inside try_to_do
 
@@ -40,4 +73,12 @@ Init_data: Response: {'error_code': 40000, 'error_data': {}, 'error_message': 'I
 
 Root cause: In init_data, AdminExplainerAPI().config_policy_tests(...) is called to update config for policy test present in sample config. That function is trying to update test pools with "taxonomy": "tag1" while we don't have any question with that taxonomy tag in sample config yet.
 
-What I did to fix: Replace "tag1" with taxonomy already present in sample config ("policy_test_tag")
+Process finding bug:
+- Run init_data
+-> Error message: Response: {'error_code': 40000, 'error_data': {}, 'error_message': 'Invalid taxonomy tag in pools'}
+Trace back: "/platform/test_automation_pro/e2e/common/api/admin/explainer.py", line 81, in config_policy_tests
+- Put breakpoint at line 32 of that init_data.py, where that function is call
+AdminExplainerAPI().config_policy_tests(...)
+- Run init_data in debug mode, step in each line. I notice the debug exits after line 74 of file common/api/admin/explainer.py (put_request) -> that put request has some issue. Looking more into it, I notice that taxonomy of questions getting updated doesn't match existing taxonomy in DB: "taxonomy": "tag1" instead of "policy_test_tag" in DB
+
+What I did to fix: Replace "tag1" with taxonomy already present in DB ("policy_test_tag")
