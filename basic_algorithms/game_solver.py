@@ -112,27 +112,70 @@ def solve_rule_3(input_matrix):
     for i in range(n):
         list_columns.append(get_column(input_matrix, i))
     for i in range(n):
-        for j in range(n):
-            if i != j and list_columns[i] == list_columns[j]:
-                if list_columns[i].count(0) == 2:
-                    first_index = list_columns[i].index(0)
-                    second_index = list_columns[i].index(0, first_index + 1, n)
-                    input_matrix[first_index][i] = 1
-                    input_matrix[second_index][i] = 2
-                    input_matrix[first_index][j] = 2
-                    input_matrix[second_index][j] = 1
+        if list_columns[i].count(0) == 2:
+            first_index = list_columns[i].index(0)
+            second_index = list_columns[i].index(0, first_index + 1, n)
+            for j in range(n):
+                list_columns[i].pop(first_index)
+                list_columns[i].pop(second_index - 1)
+                if i != j:
+                    j_first_index = list_columns[j][first_index]
+                    j_second_index = list_columns[j][second_index]
+                    list_columns[j].pop(first_index)
+                    list_columns[j].pop(second_index-1)
+                    if list_columns[i] == list_columns[j] and j_first_index != 0 and j_second_index != 0:
+                        if j_first_index == 1:
+                            input_matrix[first_index][i] = 2
+                        else:
+                            input_matrix[first_index][i] = 1
+                        if j_second_index == 1:
+                            input_matrix[second_index][i] = 2
+                        else:
+                            input_matrix[second_index][i] = 1
+                    else:
+                        list_columns[i].insert(first_index, 0)
+                        list_columns[i].insert(second_index, 0)
+                        list_columns[j].insert(first_index, j_first_index)
+                        list_columns[j].insert(second_index, j_second_index)
+                else:
+                    list_columns[i].insert(first_index, 0)
+                    list_columns[i].insert(second_index, 0)
 
     # by row
     for i in range(n):
-        for j in range(n):
-            if i != j and input_matrix[i] == input_matrix[j]:
-                if input_matrix[i].count(0) == 2:
-                    first_index = input_matrix[i].index(0)
-                    second_index = input_matrix[i].index(0, first_index + 1, n)
-                    input_matrix[i][first_index] = 1
-                    input_matrix[i][second_index] = 2
-                    input_matrix[j][first_index] = 2
-                    input_matrix[j][second_index] = 1
+        if input_matrix[i].count(0) == 2:
+            first_index = input_matrix[i].index(0)
+            second_index = input_matrix[i].index(0, first_index + 1, n)
+            for j in range(n):
+                input_matrix[i].pop(first_index)
+                input_matrix[i].pop(second_index - 1)
+                if i != j:
+                    j_first_index = input_matrix[j][first_index]
+                    j_second_index = input_matrix[j][second_index]
+                    input_matrix[j].pop(first_index)
+                    input_matrix[j].pop(second_index-1)
+                    if input_matrix[i] == input_matrix[j] and j_first_index != 0 and j_second_index != 0:
+                        if j_first_index == 1:
+                            input_matrix[i].insert(first_index, 2)
+                            input_matrix[j].insert(first_index, 1)
+                        else:
+                            input_matrix[i].insert(first_index, 1)
+                            input_matrix[j].insert(first_index, 2)
+
+                        if j_second_index == 1:
+                            input_matrix[i].insert(second_index, 2)
+                            input_matrix[j].insert(second_index, 1)
+                        else:
+                            input_matrix[i].insert(second_index, 1)
+                            input_matrix[j].insert(second_index, 2)
+                    else:
+                        input_matrix[i].insert(first_index, 0)
+                        input_matrix[i].insert(second_index, 0)
+                        input_matrix[j].insert(first_index, j_first_index)
+                        input_matrix[j].insert(second_index, j_second_index)
+                else:
+                    input_matrix[i].insert(first_index, 0)
+                    input_matrix[i].insert(second_index, 0)
 
     return input_matrix
 
@@ -161,21 +204,38 @@ def solve_game(input_matrix):
     return input_matrix
 
 
-input_matrix = [
+input_1 = [
     [1, 1, 0, 0],
     [2, 0, 0, 0],
     [0, 0, 0, 2],
     [0, 0, 1, 0],
 ]
-# print_matrix(solve_game(input_matrix))
-print_matrix(solve_rule_1(input_matrix))
-print()
-print_matrix(solve_rule_2(input_matrix))
-print()
-print_matrix(solve_rule_1(input_matrix))
-print()
-print_matrix(solve_rule_2(input_matrix))
-print()
-print_matrix(solve_rule_2(input_matrix))
+print_matrix(solve_game(input_1))
 
-# print_matrix(solve_rule_3(solve_rule_2(solve_rule_1(input_matrix))))
+"""
+Answer:
+[1, 1, 2, 2]
+[2, 1, 2, 1]
+[1, 2, 1, 2]
+[2, 2, 1, 1]
+"""
+
+input_matrix_3 = [
+  [0, 0, 0, 1, 1, 0],
+  [0, 0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0, 1],
+  [0, 2, 0, 0, 0, 0],
+  [0, 0, 0, 0, 2, 2],
+  [0, 0, 0, 0, 2, 0],
+]
+print_matrix(solve_game(input_matrix_3))
+
+"""
+Answer:
+1, 2, 2, 1, 1, 2]
+[2, 1, 2, 1, 2, 1]
+[2, 2, 1, 2, 1, 1]
+[1, 2, 1, 2, 1, 2]
+[1, 1, 2, 1, 2, 2]
+[2, 1, 1, 2, 2, 1]
+"""
